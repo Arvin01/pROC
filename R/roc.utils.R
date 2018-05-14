@@ -138,7 +138,10 @@ roc.utils.thresholds <- function(predictor, direction) {
   		# Identify problematic thresholds
   		# rows <- which(ties)
   		for (tie.idx in which(ties)) {
-  			if (thresholds[tie.idx] == unique.candidates[tie.idx - 1]) {
+  			if (tie.idx == 1) { #-Inf as 1st threshold, -Inf in observation
+  				# Nothing to do
+  			}
+  			else if (thresholds[tie.idx] == unique.candidates[tie.idx - 1]) {
   				# We're already good, nothing to do
   			}
   			else if (thresholds[tie.idx] == unique.candidates[tie.idx]) {
@@ -160,7 +163,10 @@ roc.utils.thresholds <- function(predictor, direction) {
   		# Identify the problematic thresholds:
   		# rows <- which(apply(o, 1, any))
   		for (tie.idx in which(ties)) {
-  			if (thresholds[tie.idx] == unique.candidates[tie.idx - 1]) {
+  			if (tie.idx == 1) { #-Inf as 1st threshold, -Inf in observation
+  				# Nothing to do
+  			}
+  			else if (thresholds[tie.idx] == unique.candidates[tie.idx - 1]) {
   				# Easy to fix: should be unique.candidates[tie.idx]
   				thresholds[tie.idx] <- unique.candidates[tie.idx]
   			} else if (thresholds[tie.idx] == unique.candidates[tie.idx]) {
