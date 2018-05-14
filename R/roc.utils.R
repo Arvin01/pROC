@@ -116,6 +116,14 @@ roc.utils.perfs.dens <- function(threshold, x, dens.controls, dens.cases, direct
 roc.utils.thresholds <- function(predictor, direction) {
   unique.candidates <- sort(unique(predictor))
   thresholds <- (c(-Inf, unique.candidates) + c(unique.candidates, +Inf))/2
+  # Remove double infinities
+  if (thresholds[2] == -Inf) {
+  	thresholds <- thresholds[-1]
+  }
+  if (thresholds[length(thresholds)-1] == Inf) {
+  	thresholds <- thresholds[-length(thresholds)]
+  }
+  
   if (any(ties <- thresholds %in% predictor)) {
   	# If we get here, some thresholds are identical to the predictor
   	# This is caused by near numeric ties that caused the mean to equal
