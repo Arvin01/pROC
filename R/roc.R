@@ -304,6 +304,9 @@ roc.default <- function(response, predictor,
     fun.sesp <- roc.utils.perfs.all.safe
   }
   else if (isTRUE(algorithm == 2)) {
+  	if (any(! is.finite(c(controls, cases)))) {
+  		stop("Cannot use 'algorithm=2' with infinite values in predictor.")
+  	}
     fun.sesp <- roc.utils.perfs.all.fast
   }
   else if (isTRUE(algorithm  == 3)) {
@@ -314,7 +317,7 @@ roc.default <- function(response, predictor,
   }
   else if (isTRUE(algorithm == 5)) {
   	thresholds <- length(roc.utils.thresholds(c(controls, cases), direction))
-  	if (thresholds > 1437) { # critical number determined in inst/extra/algorithms.speed.test.R
+  	if (thresholds > 1437 && all(is.finite(c(controls, cases)))) { # critical number determined in inst/extra/algorithms.speed.test.R
   		fun.sesp <- roc.utils.perfs.all.fast
   	} else {
   		fun.sesp <- rocUtilsPerfsAllC

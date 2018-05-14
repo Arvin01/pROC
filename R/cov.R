@@ -138,6 +138,9 @@ cov.roc <- function(roc1, roc2,
       # delong doesn't work well with opposite directions (will report high significance if roc1$auc and roc2$auc are similar and high)
       method <- "bootstrap"
     }
+  	else if (has.infinity(roc1) || has.infinity(roc2)) {
+  	  method <- "bootstrap"
+  	}
     else {
       method <- "delong"
     }
@@ -153,6 +156,10 @@ cov.roc <- function(roc1, roc2,
       if (smoothing.args$roc1$smooth || smoothing.args$roc2$smooth) {
         warning("Using DeLong for smoothed ROCs is not supported. Using bootstrap instead.")
         method <- "bootstrap"
+      }
+      if (has.infinity(roc1) || has.infinity(roc2)) {
+      	warning("Using DeLong for ROCs with infinite values in predictor is not supported. Using bootstrap instead.")
+      	method <- "bootstrap"
       }
       if (roc1$direction != roc2$direction)
         warning("DeLong should not be applied to ROC curves with a different direction.")

@@ -148,6 +148,9 @@ ci.auc.roc <- function(roc,
       # smoothing: bootstrap
       method <- "bootstrap"
     }
+  	else if (has.infinity(roc)) {
+  		method <- "bootstrap"
+  	}
     else {
       method <- "delong"
     }
@@ -162,6 +165,10 @@ ci.auc.roc <- function(roc,
     else if ("smooth.roc" %in% class(roc)) {
       warning("Using DeLong's test for smoothed ROCs is not supported. Using bootstrap instead.")
       method <- "bootstrap"
+    }
+    else if (has.infinity(roc)) {
+    	warning("Using DeLong for ROCs with infinite values in predictor is not supported. Using bootstrap instead.")
+    	method <- "bootstrap"
     }
   }
 

@@ -117,6 +117,10 @@ ci.auc.delong <- function(roc, conf.level) {
 # Calls delongPlacementsCpp safely
 # Ensures that the theta value calculated is correct
 delongPlacements <- function(roc) {
+	if (has.infinity(roc)) {
+		stop("Using DeLong for ROCs with infinite values in predictor is not supported.")
+	}
+	
 	placements <- delongPlacementsCpp(roc)
 
 	# Ensure theta equals auc
